@@ -3,11 +3,12 @@ import App from '@pages/content/ui/app';
 import refreshOnUpdate from 'virtual:reload-on-update-in-view';
 import injectedStyle from './injected.css?inline';
 import { attachTwindStyle } from '@root/src/shared/style/twind';
+import { EXTEND_ID } from '@root/src/shared/data';
 
 refreshOnUpdate('pages/content');
 
 const root = document.createElement('div');
-root.id = 'chrome-extension-boilerplate-react-vite-content-view-root';
+root.id = EXTEND_ID;
 
 document.body.append(root);
 
