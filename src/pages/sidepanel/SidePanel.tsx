@@ -3,32 +3,53 @@ import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
 import { useEffect, useCallback, useState } from 'react';
 import { DEFALUT_PROMPT, KIMI_API_KEY, KIMI_PROMPT } from '@root/src/shared/data';
 import { LocalStorage } from '@root/src/shared/storage';
-
+import { Button, Flex, Input, Center, Text, Square, Textarea } from '@chakra-ui/react';
 const SidePanel = () => {
   const [key, setKey] = useState('');
   const [prompt, setPrompt] = useState('');
-  const svaeKey = useCallback(() => {
+  const svae = useCallback(() => {
     LocalStorage.set(KIMI_API_KEY, key);
-  }, [key]);
+    LocalStorage.set(KIMI_PROMPT, prompt);
+  }, [key, prompt]);
   useEffect(() => {
     LocalStorage.get(KIMI_API_KEY).then(setKey);
     LocalStorage.get(KIMI_PROMPT).then(setPrompt);
   }, []);
   return (
-    <div className="App">
-      <label htmlFor="key">
-        输入key:<input value={key} onChange={e => setKey(e.target.value)} id="key"></input>
-      </label>
+    <div style={{ background: 'rgb(22, 25, 30)', height: '100vh', width: '100%', padding: 20 }}>
+      <img
+        crossOrigin="anonymous"
+        referrerPolicy="no-referrer"
+        style={{ width: 160, margin: 'auto' }}
+        src="https://www.moonshot.cn/assets/logo/normal-dark.png"
+        alt="moonshot logo"
+      />
+      <Flex color={'white'}>
+        <Center w="80px">
+          <Text fontSize={'sm'}>kimi-key:</Text>
+        </Center>
+        <Square flex={1} size="80px">
+          <Input value={key} size={'sm'} onChange={e => setKey(e.target.value)} placeholder="请输入kimi api-key" />
+        </Square>
+      </Flex>
+      <Flex color={'white'}>
+        <Center w="80px">
+          <Text fontSize={'sm'}>prompt:</Text>
+        </Center>
+        <Square flex={1}>
+          <Textarea
+            rows={10}
+            value={prompt}
+            onChange={e => setPrompt(e.target.value)}
+            placeholder={DEFALUT_PROMPT}
+            size="sm"
+          />
+        </Square>
+      </Flex>
       <br></br>
-      <label htmlFor="prompt">
-        自定义prompt:
-        <textarea
-          placeholder={DEFALUT_PROMPT}
-          value={prompt}
-          onChange={e => setPrompt(e.target.value)}
-          id="key"></textarea>
-      </label>
-      <button onClick={svaeKey}>确定</button>
+      <Button style={{ float: 'right' }} colorScheme="teal" onClick={svae}>
+        保存
+      </Button>
     </div>
   );
 };

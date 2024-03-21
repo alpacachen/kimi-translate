@@ -13,3 +13,14 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+.body{
+  padding: 8px;
+}
+.form-item{
+  display: flex;
+  padding: 8px;
+  align-items: start;
+}
+.form-item-lable{
+  width: 80px;
+}

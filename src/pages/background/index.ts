@@ -32,7 +32,9 @@ function readNextChunk(reader: ReadableStreamDefaultReader, port: chrome.runtime
 chrome.runtime.onConnect.addListener(port => {
   port.onMessage.addListener(async message => {
     const token = await LocalStorage.get(KIMI_API_KEY);
-    const prompt = await LocalStorage.get(KIMI_PROMPT);
+    const prompt = (await LocalStorage.get(KIMI_PROMPT)) as string;
+    const _prompt = prompt.replace(/[\n\r\s\t]/g, '');
+    console.log(_prompt, 'prompt');
     fetch('https://api.moonshot.cn/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -46,7 +48,7 @@ chrome.runtime.onConnect.addListener(port => {
             role: 'user',
             content: `
               你来扮演一个英译中机器，返回内容要求如下
-              ${prompt ?? DEFALUT_PROMPT}
+              ${_prompt || DEFALUT_PROMPT}
               下面我开始给你发英文原文
               `,
           },

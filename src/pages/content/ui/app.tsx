@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useEvent } from 'react-use';
 import { ResultBox } from '@pages/content/ui/result-box';
 import { EXTEND_ID } from '@root/src/shared/data';
+import { MoonIcon } from '@chakra-ui/icons';
 const port = chrome.runtime.connect();
 
 const nextTick = () => new Promise(res => setTimeout(res, 10));
@@ -56,7 +57,7 @@ export default function App() {
   return (
     <>
       {visible && (
-        <div ref={ref} style={{ ...position, zIndex: 9999 }} className="absolute border rounded p-1 bg-white">
+        <div ref={ref} style={{ ...position, zIndex: 9999 }} className="absolute flex border rounded p-1 bg-white">
           {showButton && (
             <button
               onClick={() => {
@@ -64,7 +65,7 @@ export default function App() {
                 port.postMessage(position.text);
               }}
               className="cursor-pointer">
-              翻译
+              <MoonIcon style={{ width: 12, height: 12 }} />
             </button>
           )}
           {msgBoxVisible && <ResultBox message={message} />}

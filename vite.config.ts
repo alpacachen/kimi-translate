@@ -38,6 +38,12 @@ export default defineConfig({
         contentStyle: resolve(pagesDir, 'content', 'style.scss'),
         sidepanel: resolve(pagesDir, 'sidepanel', 'index.html'),
       },
+      onwarn(warning, warn) {
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes(`"use client"`)) {
+          return;
+        }
+        warn(warning);
+      },
       output: {
         entryFileNames: 'src/pages/[name]/index.js',
         chunkFileNames: isDev ? 'assets/js/[name].js' : 'assets/js/[name].[hash].js',
