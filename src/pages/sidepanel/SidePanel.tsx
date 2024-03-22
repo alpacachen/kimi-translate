@@ -1,9 +1,9 @@
 import withSuspense from '@src/shared/hoc/withSuspense';
 import withErrorBoundary from '@src/shared/hoc/withErrorBoundary';
 import { useEffect, useCallback, useState } from 'react';
-import { DEFALUT_PROMPT, KIMI_API_KEY, KIMI_PROMPT } from '@root/src/shared/data';
+import { KIMI_API_KEY, KIMI_PROMPT } from '@root/src/shared/data';
 import { LocalStorage } from '@root/src/shared/storage';
-import { Button, Flex, Input, Center, Text, Square, Textarea } from '@chakra-ui/react';
+import { Button, Flex, Input, Center, Text, Square } from '@chakra-ui/react';
 const SidePanel = () => {
   const [key, setKey] = useState('');
   const [prompt, setPrompt] = useState('');
@@ -32,7 +32,7 @@ const SidePanel = () => {
           <Input value={key} size={'sm'} onChange={e => setKey(e.target.value)} placeholder="请输入kimi api-key" />
         </Square>
       </Flex>
-      <Flex color={'white'}>
+      {/* <Flex color={'white'}>
         <Center w="80px">
           <Text fontSize={'sm'}>prompt:</Text>
         </Center>
@@ -45,7 +45,7 @@ const SidePanel = () => {
             size="sm"
           />
         </Square>
-      </Flex>
+      </Flex> */}
       <br></br>
       <Button style={{ float: 'right' }} colorScheme="teal" onClick={svae}>
         保存

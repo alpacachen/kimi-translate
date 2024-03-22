@@ -1,4 +1,4 @@
-import { DEFALUT_PROMPT, KIMI_API_KEY, KIMI_PROMPT } from '@root/src/shared/data';
+import { DEFALUT_LETTER_PROMPT, DEFALUT_sentence_PROMPT, KIMI_API_KEY } from '@root/src/shared/data';
 import { LocalStorage } from '@root/src/shared/storage';
 import reloadOnUpdate from 'virtual:reload-on-update-in-background-script';
 import 'webextension-polyfill';
@@ -31,10 +31,9 @@ function readNextChunk(reader: ReadableStreamDefaultReader, port: chrome.runtime
 
 chrome.runtime.onConnect.addListener(port => {
   port.onMessage.addListener(async message => {
+    const isLetter = /^[A-Za-z]+$/.test(message as string);
     const token = await LocalStorage.get(KIMI_API_KEY);
-    const prompt = (await LocalStorage.get(KIMI_PROMPT)) as string;
-    const _prompt = prompt.replace(/[\n\r\s\t]/g, '');
-    console.log(_prompt, 'prompt');
+    const _prompt = isLetter ? DEFALUT_LETTER_PROMPT : DEFALUT_sentence_PROMPT;
     fetch('https://api.moonshot.cn/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -48,7 +47,7 @@ chrome.runtime.onConnect.addListener(port => {
             role: 'user',
             content: `
               你来扮演一个英译中机器，返回内容要求如下
-              ${_prompt || DEFALUT_PROMPT}
+              ${_prompt}
               下面我开始给你发英文原文
               `,
           },

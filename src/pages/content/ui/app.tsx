@@ -3,7 +3,6 @@ import { useEvent } from 'react-use';
 import { ResultBox } from '@pages/content/ui/result-box';
 import { EXTEND_ID } from '@root/src/shared/data';
 import { MoonIcon } from '@chakra-ui/icons';
-const port = chrome.runtime.connect();
 
 const nextTick = () => new Promise(res => setTimeout(res, 10));
 
@@ -49,9 +48,9 @@ export default function App() {
       clear();
     }
   });
-
+  const portRef = useRef<chrome.runtime.Port>(chrome.runtime.connect());
   useEffect(() => {
-    port.onMessage.addListener(setMessage);
+    portRef.current.onMessage.addListener(setMessage);
   }, []);
 
   return (
@@ -62,7 +61,7 @@ export default function App() {
             <button
               onClick={() => {
                 setMsgBoxVisible(true);
-                port.postMessage(position.text);
+                portRef.current.postMessage(position.text);
               }}
               className="cursor-pointer">
               <MoonIcon style={{ width: 12, height: 12 }} />

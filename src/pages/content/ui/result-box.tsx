@@ -3,9 +3,11 @@ import Markdown from 'react-markdown';
 export const ResultBox: FC<{ message: string }> = ({ message }) => {
   return (
     <div
+      className="markdown-body"
       style={{
         width: 250,
-        height: 300,
+        minHeight: 100,
+        maxHeight: 300,
         overflow: 'auto',
         whiteSpace: 'pre-wrap',
       }}>
